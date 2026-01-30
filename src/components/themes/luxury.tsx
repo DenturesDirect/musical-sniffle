@@ -1,4 +1,6 @@
 
+'use client';
+
 import { SiteConfig } from "@/types";
 import { Playfair_Display, Inter } from "next/font/google";
 import { motion } from "framer-motion";

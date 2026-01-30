@@ -1,4 +1,6 @@
 
+'use client';
+
 import { SiteConfig } from "@/types";
 import { Nunito, Great_Vibes } from "next/font/google";
 import { motion } from "framer-motion";
@@ -121,7 +123,7 @@ export default function SoftLayout({ config }: { config: SiteConfig }) {
             {/* Footer */}
             <footer id="contact" className="py-20 px-6 text-center bg-rose-100/50">
                 <div className="max-w-md mx-auto space-y-6">
-                    <h2 className={cn("text-3xl text-rose-900", scriptFont.className)}>Let's Connect</h2>
+                    <h2 className={cn("text-3xl text-rose-900", scriptFont.className)}>Let&apos;s Connect</h2>
                     <p className="text-slate-600">
                         I check my messages daily. Please be respectful and clear in your initial communication.
                     </p>

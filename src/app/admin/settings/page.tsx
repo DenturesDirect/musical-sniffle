@@ -79,7 +79,7 @@ export default function SettingsPage() {
             <div className="mt-8 p-6 bg-yellow-50 rounded-xl border border-yellow-100">
                 <h3 className="font-semibold text-yellow-800 mb-2">Publishing</h3>
                 <p className="text-sm text-yellow-700 mb-4">
-                    Your site is generated based on the settings above. In a real deployment, you would click "Deploy" here.
+                    Your site is generated based on the settings above. In a real deployment, you would click &quot;Deploy&quot; here.
                 </p>
                 <Button disabled>Deploy to Production (Coming Soon)</Button>
             </div>

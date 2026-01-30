@@ -3,7 +3,7 @@
 import { useSiteConfig } from '@/context/site-config';
 import { Button } from '@/components/ui/button';
 import { useState, useRef } from 'react';
-import { Upload, Trash, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Upload, Trash, Image as ImageIcon, Loader2, Star } from 'lucide-react';
 import { ImageItem } from '@/types';
 
 export default function GalleryPage() {
@@ -83,22 +83,31 @@ export default function GalleryPage() {
                 {images.map((img) => (
                     <div key={img.id} className="relative group bg-slate-100 rounded-lg overflow-hidden aspect-[3/4]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
+                        {config.heroImageId === img.id && (
+                            <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
+                                <Star size={10} className="fill-black" />
+                                Hero
+                            </div>
+                        )}
                         <img
                             src={img.url}
                             alt="Gallery item"
                             className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <Button size="icon" variant={config.heroImageId === img.id ? "default" : "outline"} onClick={() => updateConfig({ heroImageId: img.id })} title="Set as Hero Image">
+                                <Star className={config.heroImageId === img.id ? "fill-current text-yellow-500" : ""} size={16} />
+                            </Button>
                             <Button size="icon" variant="outline" onClick={() => {
                                 const updated = images.map(i => i.id === img.id ? { ...i, enhanced: !i.enhanced } : i);
                                 setImages(updated);
                                 updateConfig({ gallery: updated });
-                            }}>
+                            }} title="Enhance Image">
                                 <div className={img.enhanced ? "text-blue-500" : "text-slate-500"}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m5 18 14-14" /><path d="M21 21s-5 0-5-5" /><path d="M5 21s5 0 5-5" /><path d="M2 12h1" /><path d="M21 12h1" /><path d="M12 2v1" /><path d="M12 21v1" /><path d="M18.4 5.6 19 5" /><path d="M5.6 18.4 5 19" /></svg>
                                 </div>
                             </Button>
-                            <Button size="icon" variant="destructive" onClick={() => handleDelete(img.id)}>
+                            <Button size="icon" variant="destructive" onClick={() => handleDelete(img.id)} title="Delete Image">
                                 <Trash className="h-4 w-4" />
                             </Button>
                         </div>

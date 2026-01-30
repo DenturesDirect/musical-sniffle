@@ -1,4 +1,6 @@
 
+'use client';
+
 import { SiteConfig } from "@/types";
 import { Oswald, Open_Sans } from "next/font/google"; // Oswald for headers, Open Sans for body
 import { motion } from "framer-motion";
