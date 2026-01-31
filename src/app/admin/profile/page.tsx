@@ -207,6 +207,29 @@ export default function ProfilePage() {
                         />
                     </div>
                 </div>
+                <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                        <Label htmlFor="spName">Service Provider Name (Internal)</Label>
+                        <Input
+                            id="spName"
+                            name="spName"
+                            value={formData.spName || ''}
+                            onChange={handleChange}
+                            placeholder="Legal/Internal Name"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="suggestedDomain">Suggested Domain</Label>
+                        <Input
+                            id="suggestedDomain"
+                            name="suggestedDomain"
+                            value={formData.suggestedDomain || ''}
+                            onChange={handleChange}
+                            placeholder="client-name.com"
+                        />
+                    </div>
+                </div>
+
             </div>
         </div>
     );

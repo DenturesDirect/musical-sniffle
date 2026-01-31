@@ -26,6 +26,8 @@ export interface ProfileInfo {
   contactEmail: string;
   contactPhone?: string;
   whatsapp?: string;
+  spName?: string;
+  suggestedDomain?: string;
   socials?: {
     twitter?: string;
     instagram?: string;

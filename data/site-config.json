@@ -1,18 +1,19 @@
 {
   "id": "default",
-  "theme": "soft",
+  "theme": "luxury",
   "profile": {
     "name": "FrenchPartyDoll.ca",
     "tagline": "Exclusive & Elegant",
     "bio": "[Professional Polish]: Hello & welcome 💫\n\nI’m delighted you found your way here. What you see is genuine—no exaggeration, no false promises—just a warm, attentive presence for those who appreciate quality, discretion, and real connection. If you’re tired of rushed or impersonal encounters, you may find this a refreshing change.\n\nI’m a 24-year-old French companion, recently arrived in the city, with a naturally playful spirit and an appreciation for beautiful moments. I value connection and chemistry, which is why I prioritize longer reservations—time allows us to relax, enjoy each other’s company, and create something memorable. Many of my guests return often, and I truly enjoy building that familiarity 💞\n\nBeyond my love for elegant celebrations and lively energy, I have a deep passion for skiing and winter escapes. There’s something magical about crisp mountain air, fresh snow, and the thrill of carving down the slopes. I especially enjoy the company of clients who share this passion—whether it’s talking après-ski over a warm drink, laughing in snow gear, or even spending time skiing together during a winter getaway. Snowy adventures and cozy moments go hand in hand ❄️⛷️\n\nI’m very comfortable in social and festive settings and make a wonderful companion for private parties or celebratory sessions—always lighthearted, engaging, and full of positive energy. You can expect warmth, enthusiasm, and a naturally fun presence—never dull, always effortless 🥂✨\n\nDiscretion, respect, and mutual comfort are essential to me. I maintain clear boundaries so that every experience remains relaxed, enjoyable, and elegant for both of us.\n\nLimits & boundaries\n🚫 No unprotected services\n🚫 No anal\n🚫 No violence or rough behavior\n\nAvailability & Rates\n\n30 minutes — $200\n1 hour — $300\n2 hours — $500\n\nOutcall — $300\n(Includes transportation both ways; address verification required)\n\nIf you’re someone who enjoys good energy, winter adventures, refined fun, and genuine companionship, I’d love to hear from you.\n\n",
     "location": "Toronto, ON",
     "contactEmail": "booking@frenchpartydoll.ca",
-    "avatar": "/uploads/1769812208073-456541504-09cf137a-59b7-4ebd-ba3d-4fdd9844ef3b.jpg"
+    "avatar": "/uploads/1769812208073-456541504-09cf137a-59b7-4ebd-ba3d-4fdd9844ef3b.jpg",
+    "contactPhone": "647-555-xxxx"
   },
   "services": [
     {
       "id": "1",
-      "name": "Party $ Play Packadge ",
+      "name": "Party & Play Package ",
       "description": "120 minutes of partying in the snow with me while naked",
       "rate": "500",
       "duration": "2 hours"
@@ -30,6 +31,13 @@
       "description": "PNP all night wit me and the snow bunnys",
       "rate": "$1200",
       "duration": "8 Hours"
+    },
+    {
+      "id": "7ff6aecc-78fe-4bfe-98fc-a1c6c0b929ba",
+      "name": "Party & Plaay Short Pacage ",
+      "description": "Naked fun times for 1 hour",
+      "rate": "",
+      "duration": "1 Hour"
     }
   ],
   "gallery": [
@@ -76,6 +84,7 @@
   ],
   "availability": {
     "status": "unavailable",
-    "schedule": "Mon-Fri: 6pm - 2am"
+    "schedule": "Mon-Fri: 6pm - 2am",
+    "notes": "Next Week Victoria BC"
   }
 }
