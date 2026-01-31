@@ -2,36 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-// Helper to check environment variables
-function getS3Config() {
-    // Railway provides REMOTE_STORAGE_URL in the format:
-    // https://KEY:SECRET@ENDPOINT/BUCKET
-    // But sometimes it provides separate vars. We'll support both, prioritizing standard AWS vars.
-
-    // Fallback: Try to parse REMOTE_STORAGE_URL if AWS keys aren't explicitly set
-    /* 
-       Note: A robust implementation would parse the complex connection string if needed.
-       For now, we assume standard AWS variables are populated by the user or Railway's new S3 integration.
-       Railway S3 service usually exposes:
-       - AWS_ACCESS_KEY_ID
-       - AWS_SECRET_ACCESS_KEY
-       - AWS_REGION (often "us-east-1" or "auto")
-       - AWS_ENDPOINT_URL_S3 (or similar)
-       - BUCKET_NAME
-     */
-
-    return {
-        region: process.env.AWS_REGION || 'auto',
-        endpoint: process.env.AWS_ENDPOINT_URL_S3 || process.env.S3_ENDPOINT,
-        credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-        },
-        bucket: process.env.BUCKET_NAME || process.env.AWS_BUCKET_NAME,
-        publicUrl: process.env.PUBLIC_BUCKET_URL
-            || (process.env.BUCKET_NAME ? `https://${process.env.BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com` : undefined)
-    };
-}
+import { getS3Config } from '@/lib/s3-config';
 
 export async function POST(request: NextRequest) {
     try {

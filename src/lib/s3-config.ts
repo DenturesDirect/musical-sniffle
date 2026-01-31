@@ -7,10 +7,12 @@ export function getS3Config() {
         region: process.env.AWS_REGION || 'auto',
         endpoint: process.env.AWS_ENDPOINT_URL_S3 || process.env.S3_ENDPOINT,
         credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID || process.env.ACCESS_KEY || process.env.S3_ACCESS_KEY || '',
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || process.env.SECRET_KEY || process.env.S3_SECRET_KEY || '',
         },
-        bucket: process.env.BUCKET_NAME || process.env.AWS_BUCKET_NAME,
+        bucket: process.env.AWS_BUCKET_NAME || process.env.BUCKET_NAME || process.env.S3_BUCKET || '',
+        publicUrl: process.env.PUBLIC_BUCKET_URL
+            || (process.env.BUCKET_NAME ? `https://${process.env.BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com` : undefined)
     };
 }
 
