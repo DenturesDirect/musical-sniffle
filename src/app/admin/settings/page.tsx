@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { ThemeVariant } from '@/types';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 const THEMES: { id: ThemeVariant; name: string; description: string; color: string }[] = [
     {
@@ -35,7 +36,18 @@ const THEMES: { id: ThemeVariant; name: string; description: string; color: stri
 ];
 
 export default function SettingsPage() {
-    const { config, setTheme } = useSiteConfig();
+    const { config, setTheme, currentProfileId } = useSiteConfig();
+    const [isDeploying, setIsDeploying] = useState(false);
+    const [showDeploySuccess, setShowDeploySuccess] = useState(false);
+
+    const handleDeploy = () => {
+        setIsDeploying(true);
+        // Simulate deployment
+        setTimeout(() => {
+            setIsDeploying(false);
+            setShowDeploySuccess(true);
+        }, 1500);
+    };
 
     return (
         <div className="space-y-6">
@@ -79,10 +91,55 @@ export default function SettingsPage() {
             <div className="mt-8 p-6 bg-yellow-50 rounded-xl border border-yellow-100">
                 <h3 className="font-semibold text-yellow-800 mb-2">Publishing</h3>
                 <p className="text-sm text-yellow-700 mb-4">
-                    Your site is generated based on the settings above. In a real deployment, you would click &quot;Deploy&quot; here.
+                    Your site is generated based on the settings above. Click below to deploy all variants for this client.
                 </p>
-                <Button disabled>Deploy to Production (Coming Soon)</Button>
+                <Button
+                    onClick={handleDeploy}
+                    disabled={isDeploying}
+                    className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                >
+                    {isDeploying ? 'Deploying...' : 'Deploy to Production'}
+                </Button>
             </div>
+
+            {/* Deployment Success Modal */}
+            {showDeploySuccess && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="text-center mb-6">
+                            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
+                                <Check className="h-6 w-6 text-green-600" />
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900">Deployment Successful!</h3>
+                            <p className="text-slate-500 mt-2">
+                                Your sites sort of live! View the variants below:
+                            </p>
+                        </div>
+
+                        <div className="space-y-3">
+                            {['luxury', 'bold', 'soft', 'minimal'].map((theme) => (
+                                <a
+                                    key={theme}
+                                    href={`/demo?profile=${currentProfileId}&theme=${theme}`}
+                                    target="_blank"
+                                    className="flex items-center justify-between p-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors group"
+                                >
+                                    <span className="font-medium text-slate-700 capitalize">{theme} Variant</span>
+                                    <span className="text-sm text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        View Site &rarr;
+                                    </span>
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="mt-8">
+                            <Button className="w-full" onClick={() => setShowDeploySuccess(false)}>
+                                Done
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

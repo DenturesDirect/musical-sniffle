@@ -49,6 +49,16 @@ export default function BoldLayout({ config }: { config: SiteConfig }) {
                     <div className="absolute top-10 right-10 text-9xl font-black text-indigo-700 opacity-20 pointer-events-none">X</div>
                 </div>
                 <div className="w-full md:w-1/2 relative bg-slate-900 border-l-4 border-black">
+                    {config.profile.suggestedDomain && (
+                        <div className="absolute top-8 right-8 z-20">
+                            <div className="bg-indigo-600 border-4 border-black px-6 py-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transform -rotate-2">
+                                <p className="text-sm uppercase tracking-black font-black text-white">
+                                    <span className="opacity-75 mr-2">URL:</span>
+                                    {config.profile.suggestedDomain}
+                                </p>
+                            </div>
+                        </div>
+                    )}
                     {config.gallery[0] ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={config.gallery[0].url} className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-500" alt="" />

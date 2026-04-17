@@ -17,7 +17,12 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
             <nav className="sticky top-0 z-50 bg-neutral-950/80 backdrop-blur-md border-b border-white/5">
                 <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                     <div className={cn("text-2xl font-bold tracking-wider text-amber-500", serifFn.className)}>
-                        {config.profile.name.toUpperCase()}
+                        {config.profile.logo ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={config.profile.logo} alt={config.profile.name} className="h-12 w-auto object-contain" />
+                        ) : (
+                            config.profile.name.toUpperCase()
+                        )}
                     </div>
                     <div className="hidden md:flex gap-8 text-sm uppercase tracking-widest text-neutral-400">
                         <a href="#about" className="hover:text-amber-400 transition-colors">About</a>
@@ -42,21 +47,23 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         <div className="w-full h-full bg-neutral-900" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent" />
-                </div>
 
-                <div className="relative z-10 text-center space-y-6 max-w-2xl px-4">
-                    <motion.p
+                    {/* Suggested Domain Banner */}
+                    {config.profile.suggestedDomain && (
+                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20">
+                            <div className="bg-amber-900/40 backdrop-blur-md border border-amber-500/30 px-6 py-2 rounded-full shadow-lg shadow-amber-900/20">
+                                <p className="text-amber-200 text-xs font-medium uppercase tracking-widest">
+                                    <span className="opacity-70 mr-2">Suggested Domain:</span>
+                                    <span className="text-white font-bold">{config.profile.suggestedDomain}</span>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                    <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-amber-500 uppercase tracking-[0.3em] text-sm"
-                    >
-                        {config.profile.tagline}
-                    </motion.p>
-                    <motion.h1
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.2 }}
-                        className={cn("text-5xl md:text-7xl font-bold leading-tight", serifFn.className)}
+                        className={cn("text-5xl md:text-7xl font-bold text-white text-center drop-shadow-lg relative z-10", serifFn.className)}
                     >
                         {config.profile.name}
                     </motion.h1>
@@ -74,10 +81,10 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         </a>
                     </motion.div>
                 </div>
-            </header>
+            </header >
 
             {/* About */}
-            <section id="about" className="py-24 px-6 md:px-12 bg-neutral-900">
+            < section id="about" className="py-24 px-6 md:px-12 bg-neutral-900" >
                 <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
                     <div className="prose prose-invert prose-lg prose-p:font-light prose-p:text-neutral-300">
                         <h2 className={cn("text-3xl font-normal text-amber-500 mb-6", serifFn.className)}>About Me</h2>
@@ -107,10 +114,10 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         <div className="absolute -inset-4 border border-amber-800/20 -z-10" />
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Services */}
-            <section id="rates" className="py-24 px-6 md:px-12">
+            < section id="rates" className="py-24 px-6 md:px-12" >
                 <div className="max-w-3xl mx-auto space-y-16">
                     <h2 className={cn("text-4xl text-center font-normal text-white", serifFn.className)}>
                         <span className="italic text-amber-600">Private</span> Experiences
@@ -129,10 +136,10 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Gallery Grid */}
-            <section id="gallery" className="py-24 bg-black">
+            < section id="gallery" className="py-24 bg-black" >
                 <div className="px-4">
                     <h2 className={cn("text-3xl text-center mb-16 text-neutral-400 font-thin tracking-widest", serifFn.className)}>GALLERY</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-1 max-w-7xl mx-auto">
@@ -147,10 +154,10 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         )}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Contact */}
-            <section id="contact" className="py-24 px-6 bg-neutral-900 border-t border-white/5">
+            < section id="contact" className="py-24 px-6 bg-neutral-900 border-t border-white/5" >
                 <div className="max-w-xl mx-auto text-center space-y-8">
                     <h2 className={cn("text-3xl font-normal text-white", serifFn.className)}>Contact & Booking</h2>
                     <p className="text-neutral-400 font-light">
@@ -173,7 +180,7 @@ export default function LuxuryLayout({ config }: { config: SiteConfig }) {
                         &copy; {new Date().getFullYear()} {config.profile.name}. All rights reserved.
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 }

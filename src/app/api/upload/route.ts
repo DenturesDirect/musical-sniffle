@@ -15,16 +15,24 @@ export async function POST(request: NextRequest) {
 
         // Configuration check
         const config = getS3Config();
-        if (!config.credentials.accessKeyId || !config.credentials.secretAccessKey || !config.bucket) {
+        const hasCredentials = config.credentials && config.credentials.accessKeyId && config.credentials.secretAccessKey;
+
+        if (!hasCredentials || !config.bucket) {
             console.error("Missing S3 configuration");
             console.log("Config state:", {
-                hasKey: !!config.credentials.accessKeyId,
-                hasSecret: !!config.credentials.secretAccessKey,
-                bucket: config.bucket
+                hasCredentials: !!hasCredentials,
+                hasKey: !!config.credentials?.accessKeyId,
+                hasSecret: !!config.credentials?.secretAccessKey,
+                bucket: config.bucket,
+                endpoint: config.endpoint,
+                publicUrl: config.publicUrl
             });
             // Fallback for local dev if S3 not configured? 
             // For now, fail to force proper setup.
-            return NextResponse.json({ success: false, message: 'Server storage configuration missing' }, { status: 500 });
+            return NextResponse.json({
+                success: false,
+                message: 'Server storage configuration missing. Check S3 credentials in .env'
+            }, { status: 500 });
         }
 
         const bytes = await file.arrayBuffer();
@@ -49,7 +57,7 @@ export async function POST(request: NextRequest) {
             Key: filename,
             Body: buffer,
             ContentType: file.type,
-            ACL: 'public-read', // Request public access if bucket allows
+            ACL: 'public-read', // Required for Tigris to make objects publicly accessible
         });
 
         await client.send(command);

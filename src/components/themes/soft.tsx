@@ -50,7 +50,15 @@ export default function SoftLayout({ config }: { config: SiteConfig }) {
                         <p className="text-xl text-rose-700 italic font-light">{config.profile.tagline}</p>
                     </div>
 
-                    <div className="pt-8">
+                    <div className="pt-8 relative">
+                        {config.profile.suggestedDomain && (
+                            <div className="mb-8 inline-block">
+                                <span className="bg-white/80 backdrop-blur-sm border border-rose-200 text-rose-400 px-4 py-1 rounded-full text-xs uppercase tracking-widest">
+                                    Available at: <span className="text-rose-600 font-bold">{config.profile.suggestedDomain}</span>
+                                </span>
+                            </div>
+                        )}
+                        <br />
                         <a href="#contact" className="bg-rose-400 hover:bg-rose-500 text-white px-8 py-3 rounded-full shadow-lg shadow-rose-200 transition-all transform hover:scale-105 inline-block font-semibold">
                             Send Me a Message
                         </a>

@@ -32,7 +32,17 @@ export default function MinimalLayout({ config }: { config: SiteConfig }) {
 
             <main className="md:ml-64">
                 {/* Intro */}
-                <section id="intro" className="min-h-[80vh] flex flex-col justify-end p-8 md:p-16 border-b border-black">
+                <section id="intro" className="min-h-[80vh] flex flex-col justify-end p-8 md:p-16 border-b border-black relative">
+                    {config.profile.suggestedDomain && (
+                        <div className="absolute top-8 right-8 z-10">
+                            <div className="bg-gray-100 border border-black px-4 py-2">
+                                <p className="text-xs uppercase tracking-widest font-mono">
+                                    <span className="text-gray-500 mr-2">Domain:</span>
+                                    <span className="font-bold">{config.profile.suggestedDomain}</span>
+                                </p>
+                            </div>
+                        </div>
+                    )}
                     <div className="max-w-2xl">
                         <p className="text-2xl md:text-4xl leading-tight font-light text-gray-800">
                             {config.profile.bio}

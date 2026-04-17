@@ -3,13 +3,15 @@
 import { useSiteConfig } from '@/context/site-config';
 import { Button } from '@/components/ui/button';
 import { useState, useRef } from 'react';
-import { Upload, Trash, Image as ImageIcon, Loader2, Star } from 'lucide-react';
+import { Upload, Trash, Image as ImageIcon, Loader2, Star, Wand2 } from 'lucide-react';
 import { ImageItem } from '@/types';
+import ImageEditor from '@/components/admin/ImageEditor';
 
 export default function GalleryPage() {
     const { config, updateConfig } = useSiteConfig();
     const [images, setImages] = useState<ImageItem[]>(config.gallery);
     const [isUploading, setIsUploading] = useState(false);
+    const [editingImage, setEditingImage] = useState<ImageItem | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +59,47 @@ export default function GalleryPage() {
         }
     };
 
+    const handleSaveEditedImage = async (file: File) => {
+        if (!editingImage) return;
+
+        setIsUploading(true);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                // Add as a new image or replace? Let's add as new for safety, but maybe typically we replace?
+                // For "Eraser" workflow, usually we want the result.
+                // Let's replace the URL of the existing image ID? No, S3 cache issues.
+                // Let's add as new image for now so user doesn't lose original.
+                const newImage: ImageItem = {
+                    id: data.id,
+                    url: data.url,
+                    caption: editingImage.caption,
+                    tags: editingImage.tags,
+                    enhanced: true
+                };
+                const updatedImages = [...images, newImage];
+                setImages(updatedImages);
+                updateConfig({ gallery: updatedImages });
+                setEditingImage(null);
+            } else {
+                alert('Save failed: ' + data.message);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Save error');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -98,14 +141,8 @@ export default function GalleryPage() {
                             <Button size="icon" variant={config.heroImageId === img.id ? "default" : "outline"} onClick={() => updateConfig({ heroImageId: img.id })} title="Set as Hero Image">
                                 <Star className={config.heroImageId === img.id ? "fill-current text-yellow-500" : ""} size={16} />
                             </Button>
-                            <Button size="icon" variant="outline" onClick={() => {
-                                const updated = images.map(i => i.id === img.id ? { ...i, enhanced: !i.enhanced } : i);
-                                setImages(updated);
-                                updateConfig({ gallery: updated });
-                            }} title="Enhance Image">
-                                <div className={img.enhanced ? "text-blue-500" : "text-slate-500"}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m5 18 14-14" /><path d="M21 21s-5 0-5-5" /><path d="M5 21s5 0 5-5" /><path d="M2 12h1" /><path d="M21 12h1" /><path d="M12 2v1" /><path d="M12 21v1" /><path d="M18.4 5.6 19 5" /><path d="M5.6 18.4 5 19" /></svg>
-                                </div>
+                            <Button size="icon" variant="outline" onClick={() => setEditingImage(img)} title="Magic Eraser">
+                                <Wand2 className="h-4 w-4 text-purple-400" />
                             </Button>
                             <Button size="icon" variant="destructive" onClick={() => handleDelete(img.id)} title="Delete Image">
                                 <Trash className="h-4 w-4" />
@@ -120,6 +157,14 @@ export default function GalleryPage() {
                     </div>
                 )}
             </div>
+
+            {editingImage && (
+                <ImageEditor
+                    imageUrl={editingImage.url}
+                    onSave={handleSaveEditedImage}
+                    onCancel={() => setEditingImage(null)}
+                />
+            )}
         </div>
     );
 }

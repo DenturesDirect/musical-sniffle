@@ -19,6 +19,7 @@ export interface ServiceItem {
 
 export interface ProfileInfo {
   avatar?: string;
+  logo?: string;
   name: string;
   tagline: string;
   bio: string;

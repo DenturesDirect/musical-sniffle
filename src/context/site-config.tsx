@@ -8,37 +8,48 @@ interface SiteConfigContextType {
     updateConfig: (updates: Partial<SiteConfig>) => void;
     setTheme: (theme: ThemeVariant) => void;
     resetConfig: () => void;
+    currentProfileId: string;
+    switchProfile: (profileId: string) => Promise<void>;
 }
 
 const SiteConfigContext = createContext<SiteConfigContextType | undefined>(undefined);
 
 export const SiteConfigProvider = ({ children }: { children: ReactNode }) => {
     const [config, setConfig] = useState<SiteConfig>(DEFAULT_CONFIG);
+    const [currentProfileId, setCurrentProfileId] = useState('default');
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Load from API on mount
-    useEffect(() => {
-        const loadConfig = async () => {
-            try {
-                const res = await fetch('/api/config');
-                if (res.ok) {
-                    const data = await res.json();
-                    setConfig(data);
-                }
-            } catch (e) {
-                console.error('Failed to load config', e);
-            } finally {
-                setIsLoaded(true);
+    const loadConfig = async (profileId: string) => {
+        setIsLoaded(false);
+        try {
+            const res = await fetch(`/api/config?profile=${profileId}`);
+            if (res.ok) {
+                const data = await res.json();
+                setConfig(data);
+                setCurrentProfileId(profileId);
             }
-        };
-        loadConfig();
+        } catch (e) {
+            console.error('Failed to load config', e);
+        } finally {
+            setIsLoaded(true);
+        }
+    };
+
+    // Load initial config
+    useEffect(() => {
+        // Could potentially check URL or local storage here for last active profile
+        loadConfig('default');
     }, []);
+
+    const switchProfile = async (profileId: string) => {
+        await loadConfig(profileId);
+    };
 
     const updateConfig = (updates: Partial<SiteConfig>) => {
         setConfig((prev) => {
             const newConfig = { ...prev, ...updates };
             // Fire and forget save to API
-            fetch('/api/config', {
+            fetch(`/api/config?profile=${currentProfileId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newConfig)
@@ -58,11 +69,11 @@ export const SiteConfigProvider = ({ children }: { children: ReactNode }) => {
     };
 
     if (!isLoaded) {
-        return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-400">Loading Site...</div>;
+        return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-400">Loading Client Profile...</div>;
     }
 
     return (
-        <SiteConfigContext.Provider value={{ config, updateConfig, setTheme, resetConfig }}>
+        <SiteConfigContext.Provider value={{ config, updateConfig, setTheme, resetConfig, currentProfileId, switchProfile }}>
             {children}
         </SiteConfigContext.Provider>
     );
